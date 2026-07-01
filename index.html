@@ -5,101 +5,217 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Soundverse</title>
   <link rel="stylesheet" href="assets/css/base.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
   <style>
-    body { background: #000; }
-
-    /* ── Arq image space (behind hero, fixed) ── */
-    .hero-img {
-      position: fixed;
-      top: 0; left: 0; right: 0;
+    /* ── HERO: pure black, full screen ── */
+    .hero {
+      position: relative;
+      width: 100%;
       height: 100svh;
-      z-index: 0;
-      background: #000; /* swap for img once you have the commission */
-      opacity: 0.35;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
     }
 
-    /* ── Hero ── */
-    .hero {
-      min-height: 100svh;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: var(--sp-32) var(--sp-8) var(--sp-16);
-      position: relative;
-      z-index: 1;
+    /* Arq image — swap src when commissioned */
+    .hero__img {
+      position: absolute;
+      inset: 0;
+      background: url('assets/img/arq.jpg') center top / cover no-repeat;
+      opacity: 0.22;
+      /* remove this line once image exists: */
+      display: none;
     }
 
     .hero__title {
-      font-family: var(--ff-display);
-      font-size: clamp(5rem, 18vw, 16rem);
-      font-weight: 300;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(5rem, 20vw, 18rem);
+      font-weight: 400;
       color: #fff;
-      line-height: 0.85;
-      letter-spacing: -0.03em;
+      letter-spacing: 0.06em;
+      line-height: 1;
+      position: relative;
+      z-index: 1;
       will-change: transform;
-      /* parallax applied via JS */
     }
 
-    .hero__tagline {
-      font-size: var(--fs-md);
-      color: var(--clr-muted);
-      max-width: 44ch;
-      line-height: 1.8;
-      margin-top: var(--sp-8);
-      margin-bottom: var(--sp-10);
-    }
-
-    .hero__ctas {
-      display: flex;
-      gap: var(--sp-4);
-      flex-wrap: wrap;
-    }
-
-    .hero__scroll {
-      position: absolute;
-      bottom: var(--sp-8);
-      left: var(--sp-8);
-      font-size: var(--fs-xs);
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--clr-muted);
+    /* ── NAV: fixed, invisible until scroll ── */
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      height: var(--nav-h);
       display: flex;
       align-items: center;
-      gap: var(--sp-3);
+      justify-content: space-between;
+      padding: 0 var(--sp-8);
+      transition: background 0.4s, border-color 0.4s;
+      border-bottom: 1px solid transparent;
     }
-    .hero__scroll::before {
-      content: '';
-      display: block;
-      width: 32px;
-      height: 1px;
-      background: var(--clr-border);
+    .nav.scrolled {
+      background: rgba(13,13,13,0.92);
+      backdrop-filter: blur(12px);
+      border-color: var(--clr-border);
+    }
+    .nav__logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.3rem;
+      letter-spacing: 0.12em;
+      color: #fff;
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+    .nav__logo span { color: var(--clr-accent); }
+    .nav.scrolled .nav__logo { opacity: 1; }
+
+    .nav__links {
+      display: flex;
+      gap: var(--sp-8);
+    }
+    .nav__links a {
+      font-size: var(--fs-xs);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      transition: color 0.3s;
+    }
+    .nav.scrolled .nav__links a { color: var(--clr-muted); }
+    .nav__links a:hover { color: var(--clr-accent) !important; }
+
+    /* ── CONTENT: below the hero ── */
+    .content {
+      position: relative;
+      background: var(--clr-bg);
     }
 
-    /* rest of your existing styles below unchanged */
-    .preview-section { padding: var(--sp-24) var(--sp-8); max-width: 1100px; margin: 0 auto; position: relative; z-index: 1; background: #000; }
-    .preview-header {
+    /* canvas sits at top of content, bleeds upward slightly */
+    #bg-canvas {
+      position: absolute;
+      top: -80px; left: 0; right: 0;
+      width: 100%;
+      height: 500px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .section-wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: var(--sp-24) var(--sp-8);
+      border-bottom: 1px solid var(--clr-border);
+    }
+
+    .section-label {
+      font-size: var(--fs-xs);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--clr-accent);
+      margin-bottom: var(--sp-3);
+    }
+
+    .section-header {
       display: flex;
       align-items: baseline;
       justify-content: space-between;
-      margin-bottom: var(--sp-8);
       border-bottom: 1px solid var(--clr-border);
       padding-bottom: var(--sp-4);
+      margin-bottom: var(--sp-8);
     }
-    .preview-header h2 { font-size: var(--fs-xl); font-weight: 400; letter-spacing: 0.04em; }
-    .preview-header a { font-size: var(--fs-xs); letter-spacing: 0.12em; text-transform: uppercase; color: var(--clr-accent); transition: opacity var(--transition); }
-    .preview-header a:hover { opacity: 0.7; }
-    .music-mini { padding: var(--sp-4) var(--sp-6); background: var(--clr-surface); border: 1px solid var(--clr-border); border-radius: var(--radius); display: flex; align-items: center; gap: var(--sp-4); cursor: pointer; transition: border-color var(--transition), transform var(--transition); text-decoration: none; }
-    .music-mini:hover { border-color: var(--clr-accent-dim); transform: translateX(3px); }
-    .music-mini__num { font-size: var(--fs-xs); color: var(--clr-muted); width: 20px; text-align: right; flex-shrink: 0; }
-    .music-mini__info { flex: 1; min-width: 0; }
-    .music-mini__title { font-family: var(--ff-display); font-size: var(--fs-lg); color: var(--clr-white); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .music-mini__meta { font-size: var(--fs-xs); color: var(--clr-muted); }
-    .music-mini__tag { margin-left: auto; }
+
+    .section-header h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2rem, 5vw, 3rem);
+      letter-spacing: 0.05em;
+      color: var(--clr-white);
+      font-weight: 400;
+    }
+
+    .section-header a {
+      font-size: var(--fs-xs);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--clr-accent);
+      opacity: 0.75;
+      transition: opacity 0.2s;
+    }
+    .section-header a:hover { opacity: 1; }
+
+    /* music rows */
+    .music-list { display: flex; flex-direction: column; gap: 1px; background: var(--clr-border); }
+
+    .music-row {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-4);
+      padding: var(--sp-4) var(--sp-6);
+      background: var(--clr-bg);
+      text-decoration: none;
+      transition: background 0.18s;
+    }
+    .music-row:hover { background: var(--clr-surface); }
+
+    .music-row__num {
+      font-size: var(--fs-xs);
+      color: var(--clr-muted);
+      width: 20px;
+      flex-shrink: 0;
+    }
+    .music-row__title {
+      font-size: var(--fs-md);
+      color: var(--clr-white);
+      flex: 1;
+    }
+    .music-row__meta {
+      font-size: var(--fs-xs);
+      color: var(--clr-muted);
+      letter-spacing: 0.08em;
+    }
+
+    /* character grid */
+    .char-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: var(--sp-4);
+    }
+
+    .char-card {
+      border: 1px solid var(--clr-border);
+      padding: var(--sp-6);
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-2);
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .char-card:hover { border-color: var(--clr-accent-dim); transform: translateY(-2px); }
+
+    .char-card__letter {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      color: var(--clr-accent);
+      line-height: 1;
+    }
+    .char-card__name { font-size: var(--fs-md); color: var(--clr-white); }
+    .char-card__role {
+      font-size: var(--fs-xs);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--clr-accent);
+    }
+    .char-card__desc { font-size: var(--fs-xs); color: var(--clr-muted); line-height: 1.7; margin-top: var(--sp-2); }
+
+    @media (max-width: 640px) {
+      .nav__links { display: none; }
+    }
   </style>
 </head>
 <body>
 
-  <nav class="nav">
+  <nav class="nav" id="nav">
     <a class="nav__logo" href="/">Sound<span>verse</span></a>
     <ul class="nav__links">
       <li><a href="/music/">Music</a></li>
@@ -108,117 +224,161 @@
     </ul>
   </nav>
 
-  <!-- image slot — replace background with: background: url('assets/img/arq.jpg') center/cover no-repeat -->
-  <div class="hero-img"></div>
+  <!-- HERO: black screen, your name, Arq behind it -->
+  <section class="hero">
+    <div class="hero__img"></div>
+    <h1 class="hero__title" id="hero-title">SOUNDVERSE</h1>
+  </section>
 
-  <main class="page">
-    <section class="hero">
-      <h1 class="hero__title fade-up" id="parallax-title">SOUNDVERSE</h1>
-      <p class="hero__tagline fade-up fade-up--d1">
-        <!-- your tagline here -->
-      </p>
-      <div class="hero__ctas fade-up fade-up--d2">
-        <a class="btn btn--primary" href="/music/">Hear It</a>
-        <a class="btn btn--ghost" href="/story/">The Universe →</a>
-      </div>
-      <div class="hero__scroll">Scroll</div>
-    </section>
+  <!-- CONTENT -->
+  <div class="content">
+    <canvas id="bg-canvas"></canvas>
 
-    <!-- Music preview -->
-    <div class="preview-section">
-      <div class="preview-header">
-        <h2>Recent Tracks</h2>
-        <a href="/music/">All Music →</a>
+    <!-- Music -->
+    <div class="section-wrap">
+      <p class="section-label">Music</p>
+      <div class="section-header">
+        <h2>Tracks</h2>
+        <a href="/music/">All →</a>
       </div>
-      <div class="grid grid--2" style="gap: var(--sp-3);">
-        <a class="music-mini fade-up" href="/music/red-ink/">
-          <span class="music-mini__num">01</span>
-          <div class="music-mini__info">
-            <div class="music-mini__title">Red Ink</div>
-            <div class="music-mini__meta">2024 · Origin Arc</div>
-          </div>
-          <span class="card__tag music-mini__tag">Anchor</span>
+      <div class="music-list">
+        <a class="music-row" href="/music/red-ink/">
+          <span class="music-row__num">01</span>
+          <span class="music-row__title">Red Ink</span>
+          <span class="music-row__meta">Origin Arc · 2024</span>
         </a>
-        <a class="music-mini fade-up fade-up--d1" href="/music/">
-          <span class="music-mini__num">02</span>
-          <div class="music-mini__info">
-            <div class="music-mini__title">Placeholder Track</div>
-            <div class="music-mini__meta">2024 · —</div>
-          </div>
-          <span class="card__tag music-mini__tag">TBA</span>
+        <a class="music-row" href="/music/">
+          <span class="music-row__num">02</span>
+          <span class="music-row__title">—</span>
+          <span class="music-row__meta">TBA</span>
         </a>
-        <a class="music-mini fade-up fade-up--d2" href="/music/">
-          <span class="music-mini__num">03</span>
-          <div class="music-mini__info">
-            <div class="music-mini__title">Placeholder Track</div>
-            <div class="music-mini__meta">2024 · —</div>
-          </div>
-          <span class="card__tag music-mini__tag">TBA</span>
-        </a>
-        <a class="music-mini fade-up fade-up--d3" href="/music/">
-          <span class="music-mini__num">04</span>
-          <div class="music-mini__info">
-            <div class="music-mini__title">Placeholder Track</div>
-            <div class="music-mini__meta">2024 · —</div>
-          </div>
-          <span class="card__tag music-mini__tag">TBA</span>
+        <a class="music-row" href="/music/">
+          <span class="music-row__num">03</span>
+          <span class="music-row__title">—</span>
+          <span class="music-row__meta">TBA</span>
         </a>
       </div>
     </div>
 
-    <hr class="divider" style="max-width:1100px; margin: 0 auto var(--sp-8);" />
-
-    <!-- Character preview -->
-    <div class="preview-section">
-      <div class="preview-header">
-        <h2>The Characters</h2>
+    <!-- Characters -->
+    <div class="section-wrap">
+      <p class="section-label">Story</p>
+      <div class="section-header">
+        <h2>Characters</h2>
         <a href="/story/">Full Universe →</a>
       </div>
-      <div class="grid grid--4">
-        <a class="char-card fade-up" href="/story/arq/">
-          <div class="char-card__avatar">A</div>
-          <div>
-            <div class="char-card__name">Arq</div>
-            <div class="char-card__role">The Wanderer</div>
-          </div>
+      <div class="char-grid">
+        <a class="char-card" href="/story/arq/">
+          <div class="char-card__letter">A</div>
+          <div class="char-card__name">Arq</div>
+          <div class="char-card__role">The Wanderer</div>
           <p class="char-card__desc">A frequency in exile. The signal everything else orbits.</p>
         </a>
-        <a class="char-card fade-up fade-up--d1" href="/story/cuber/">
-          <div class="char-card__avatar">C</div>
-          <div>
-            <div class="char-card__name">Cuber</div>
-            <div class="char-card__role">The Architect</div>
-          </div>
+        <a class="char-card" href="/story/cuber/">
+          <div class="char-card__letter">C</div>
+          <div class="char-card__name">Cuber</div>
+          <div class="char-card__role">The Architect</div>
           <p class="char-card__desc">Builds the structures Arq must eventually leave behind.</p>
         </a>
-        <a class="char-card fade-up fade-up--d2" href="/story/">
-          <div class="char-card__avatar">B</div>
-          <div>
-            <div class="char-card__name">Bob</div>
-            <div class="char-card__role">The Anchor</div>
-          </div>
+        <a class="char-card" href="/story/">
+          <div class="char-card__letter">B</div>
+          <div class="char-card__name">Bob</div>
+          <div class="char-card__role">The Anchor</div>
           <p class="char-card__desc">Placeholder — lore pending.</p>
         </a>
       </div>
     </div>
-  </main>
 
-  <footer class="footer">
-    <span class="footer__copy">© 2025 Soundverse — molive6316 / MXT Apex</span>
-    <nav class="footer__links">
-      <a href="/music/">Music</a>
-      <a href="/story/">Story</a>
-      <a href="/about/">About</a>
-    </nav>
-  </footer>
+    <footer class="footer">
+      <span class="footer__copy">© 2025 Soundverse — molive6316 / MXT Apex</span>
+      <nav class="footer__links">
+        <a href="/music/">Music</a>
+        <a href="/story/">Story</a>
+        <a href="/about/">About</a>
+      </nav>
+    </footer>
+  </div>
 
   <script>
-    // parallax — title scrolls slower than the page
-    const title = document.getElementById('parallax-title');
+    // ── NAV appears on scroll ──
+    const nav = document.getElementById('nav');
     window.addEventListener('scroll', () => {
-      const y = window.scrollY;
-      title.style.transform = `translateY(${y * 0.35}px)`;
+      nav.classList.toggle('scrolled', window.scrollY > window.innerHeight * 0.6);
     }, { passive: true });
+
+    // ── PARALLAX on hero title ──
+    const heroTitle = document.getElementById('hero-title');
+    window.addEventListener('scroll', () => {
+      heroTitle.style.transform = `translateY(${window.scrollY * 0.32}px)`;
+      heroTitle.style.opacity = 1 - window.scrollY / (window.innerHeight * 0.7);
+    }, { passive: true });
+
+    // ── NEBULA + PARTICLES on canvas ──
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    let W, H, particles = [];
+
+    function resize() {
+      W = canvas.width = canvas.offsetWidth;
+      H = canvas.height = canvas.offsetHeight;
+    }
+
+    class Particle {
+      constructor() { this.reset(true); }
+      reset(init) {
+        this.x = Math.random() * W;
+        this.y = init ? Math.random() * H : H + 5;
+        this.size = Math.random() * 1.2 + 0.2;
+        this.vy = -(Math.random() * 0.3 + 0.06);
+        this.vx = (Math.random() - 0.5) * 0.12;
+        this.alpha = Math.random() * 0.5 + 0.07;
+        this.accent = Math.random() > 0.6;
+      }
+      update() { this.x += this.vx; this.y += this.vy; if (this.y < -5) this.reset(false); }
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI*2);
+        ctx.fillStyle = this.accent ? `rgba(91,158,160,${this.alpha})` : `rgba(200,194,184,${this.alpha})`;
+        ctx.fill();
+      }
+    }
+
+    const blobs = [
+      { x:0.2, y:0.4, r:320, col:'26,58,92',  spd:0.00014 },
+      { x:0.75, y:0.5, r:280, col:'91,158,160', spd:0.0002 },
+      { x:0.5, y:0.9,  r:260, col:'40,16,60',  spd:0.00016 },
+    ];
+    let t = 0;
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      blobs.forEach(b => {
+        const bx = (b.x + Math.sin(t*b.spd*900)*0.06)*W;
+        const by = (b.y + Math.cos(t*b.spd*700)*0.05)*H;
+        const g = ctx.createRadialGradient(bx, by, 0, bx, by, b.r);
+        g.addColorStop(0, `rgba(${b.col},0.14)`);
+        g.addColorStop(1, `rgba(${b.col},0)`);
+        ctx.fillStyle = g;
+        ctx.beginPath(); ctx.arc(bx, by, b.r, 0, Math.PI*2); ctx.fill();
+      });
+      particles.forEach(p => { p.update(); p.draw(); });
+      t++;
+      requestAnimationFrame(draw);
+    }
+
+    function init() {
+      resize();
+      particles = Array.from({length: 120}, () => new Particle());
+      draw();
+    }
+
+    // only run canvas when it's near the viewport
+    const observer = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) { init(); observer.disconnect(); }
+    });
+    observer.observe(canvas);
+
+    window.addEventListener('resize', resize);
   </script>
 
 </body>
