@@ -5,97 +5,74 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Story — Soundverse</title>
   <link rel="stylesheet" href="../assets/css/base.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
   <style>
-    .story-hero {
-      padding: var(--sp-32) var(--sp-8) var(--sp-12);
-      max-width: 1100px;
-      margin: 0 auto;
-      position: relative;
-    }
-    .story-hero::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background: radial-gradient(ellipse 60% 50% at 30% 50%, rgba(91,158,160,0.06) 0%, transparent 65%);
-      pointer-events: none;
-    }
-    .universe-intro {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 var(--sp-8);
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--sp-16);
-      align-items: start;
-      margin-bottom: var(--sp-24);
-    }
-    @media (max-width: 720px) { .universe-intro { grid-template-columns: 1fr; } }
-    .universe-intro__text p {
-      font-size: var(--fs-md);
-      color: var(--clr-text);
-      line-height: 1.9;
-    }
-    .universe-intro__text p + p { margin-top: var(--sp-4); }
-    .universe-stat {
-      display: flex;
-      flex-direction: column;
-      gap: var(--sp-1);
-      padding: var(--sp-6);
-      border-left: 2px solid var(--clr-accent-dim);
-    }
-    .universe-stat__num {
-      font-family: var(--ff-display);
-      font-size: var(--fs-3xl);
-      color: var(--clr-white);
-      line-height: 1;
-    }
-    .universe-stat__label {
-      font-size: var(--fs-xs);
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--clr-muted);
-    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { background: #000; color: var(--clr-text); font-family: var(--ff-body); font-size: var(--fs-base); line-height: 1.7; overflow-x: hidden; }
 
-    .characters-section {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 var(--sp-8);
-      margin-bottom: var(--sp-24);
-    }
-    .lore-sections {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 var(--sp-8) var(--sp-32);
-    }
-    .lore-item {
-      padding: var(--sp-8) 0;
+    #bg-canvas { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; opacity: 0.6; }
+
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      height: var(--nav-h); display: flex; align-items: center; justify-content: space-between;
+      padding: 0 var(--sp-8); background: rgba(0,0,0,0.88); backdrop-filter: blur(14px);
       border-bottom: 1px solid var(--clr-border);
-      display: grid;
-      grid-template-columns: 180px 1fr;
-      gap: var(--sp-8);
     }
-    @media (max-width: 640px) { .lore-item { grid-template-columns: 1fr; } }
-    .lore-item__label {
-      font-size: var(--fs-xs);
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--clr-accent);
-      padding-top: 4px;
-    }
-    .lore-item__content h3 {
-      font-size: var(--fs-xl);
-      font-weight: 400;
-      margin-bottom: var(--sp-3);
-    }
-    .lore-item__content p {
-      font-size: var(--fs-base);
-      color: var(--clr-muted);
-      line-height: 1.8;
-      max-width: 60ch;
-    }
+    .nav__logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 0.12em; color: #fff; text-decoration: none; transition: color 0.3s; }
+    .nav__logo span { color: var(--clr-accent); }
+    .nav__logo:hover { color: var(--clr-accent); }
+    .nav__links { display: flex; gap: var(--sp-8); list-style: none; }
+    .nav__links a { font-size: var(--fs-xs); letter-spacing: 0.18em; text-transform: uppercase; color: var(--clr-muted); text-decoration: none; transition: color 0.3s; }
+    .nav__links a:hover, .nav__links a[aria-current="page"] { color: var(--clr-accent); }
+
+    .content { position: relative; z-index: 1; padding-top: var(--nav-h); }
+
+    .page-header { max-width: 1100px; margin: 0 auto; padding: var(--sp-16) var(--sp-8) var(--sp-8); border-bottom: 1px solid var(--clr-border); }
+    .page-header__label { font-size: var(--fs-xs); letter-spacing: 0.22em; text-transform: uppercase; color: var(--clr-accent); margin-bottom: var(--sp-2); }
+    .page-header__title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(4rem, 12vw, 9rem); letter-spacing: 0.04em; color: #fff; line-height: 0.9; }
+    .page-header__sub { font-size: var(--fs-sm); color: var(--clr-muted); margin-top: var(--sp-4); max-width: 52ch; line-height: 1.7; }
+
+    .section-wrap { max-width: 1100px; margin: 0 auto; padding: var(--sp-12) var(--sp-8); border-bottom: 1px solid var(--clr-border); }
+    .section-label { font-size: var(--fs-xs); letter-spacing: 0.22em; text-transform: uppercase; color: var(--clr-accent); margin-bottom: var(--sp-3); }
+    .section-header { display: flex; align-items: baseline; justify-content: space-between; border-bottom: 1px solid var(--clr-border); padding-bottom: var(--sp-4); margin-bottom: var(--sp-8); }
+    .section-header h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem, 5vw, 3rem); letter-spacing: 0.05em; color: var(--clr-white); font-weight: 400; }
+    .section-header a { font-size: var(--fs-xs); letter-spacing: 0.15em; text-transform: uppercase; color: var(--clr-accent); opacity: 0.75; transition: opacity 0.2s; text-decoration: none; }
+    .section-header a:hover { opacity: 1; }
+
+    .universe-text p { font-size: var(--fs-base); color: var(--clr-text); line-height: 1.9; max-width: 62ch; }
+    .universe-text p + p { margin-top: var(--sp-4); }
+
+    .universe-stats { display: flex; gap: var(--sp-12); flex-wrap: wrap; margin-top: var(--sp-8); padding-top: var(--sp-8); border-top: 1px solid var(--clr-border); }
+    .universe-stat__num { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; color: var(--clr-white); line-height: 1; letter-spacing: 0.04em; }
+    .universe-stat__label { font-size: var(--fs-xs); letter-spacing: 0.15em; text-transform: uppercase; color: var(--clr-muted); margin-top: var(--sp-1); }
+
+    .char-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: var(--sp-4); }
+    .char-card { border: 1px solid var(--clr-border); padding: var(--sp-6); text-decoration: none; display: flex; flex-direction: column; gap: var(--sp-2); transition: border-color 0.2s, transform 0.2s; background: transparent; }
+    .char-card:hover { border-color: var(--clr-accent-dim); transform: translateY(-2px); }
+    .char-card__letter { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--clr-accent); line-height: 1; }
+    .char-card__name { font-size: var(--fs-md); color: var(--clr-white); }
+    .char-card__role { font-size: var(--fs-xs); letter-spacing: 0.15em; text-transform: uppercase; color: var(--clr-accent); }
+    .char-card__desc { font-size: var(--fs-xs); color: var(--clr-muted); line-height: 1.7; margin-top: var(--sp-2); }
+
+    .lore-list { display: flex; flex-direction: column; }
+    .lore-row { display: grid; grid-template-columns: 160px 1fr; gap: var(--sp-8); padding: var(--sp-6) 0; border-bottom: 1px solid var(--clr-border); }
+    @media (max-width: 640px) { .lore-row { grid-template-columns: 1fr; gap: var(--sp-2); } }
+    .lore-row__label { font-size: var(--fs-xs); letter-spacing: 0.15em; text-transform: uppercase; color: var(--clr-accent); padding-top: 2px; }
+    .lore-row__title { font-family: 'Bebas Neue', sans-serif; font-size: var(--fs-xl); letter-spacing: 0.04em; color: var(--clr-white); margin-bottom: var(--sp-2); }
+    .lore-row__body { font-size: var(--fs-sm); color: var(--clr-muted); line-height: 1.8; max-width: 58ch; }
+
+    .footer { border-top: 1px solid var(--clr-border); padding: var(--sp-12) var(--sp-8); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--sp-4); }
+    .footer__copy { font-size: var(--fs-xs); color: var(--clr-muted); letter-spacing: 0.08em; }
+    .footer__links { display: flex; gap: var(--sp-6); }
+    .footer__links a { font-size: var(--fs-xs); letter-spacing: 0.1em; text-transform: uppercase; color: var(--clr-muted); text-decoration: none; transition: color 0.2s; }
+    .footer__links a:hover { color: var(--clr-accent); }
+
+    @media (max-width: 640px) { .nav__links { display: none; } .footer { flex-direction: column; text-align: center; } }
   </style>
 </head>
 <body>
+  <canvas id="bg-canvas"></canvas>
+
   <nav class="nav">
     <a class="nav__logo" href="/">Sound<span>verse</span></a>
     <ul class="nav__links">
@@ -105,142 +82,115 @@
     </ul>
   </nav>
 
-  <main class="page">
-    <div class="story-hero">
-      <p class="eyebrow fade-up">The Universe</p>
-      <h1 class="fade-up fade-up--d1" style="font-size: clamp(3rem, 8vw, 6rem); font-weight:300; font-style:italic; line-height:0.95;">Soundverse</h1>
-      <p class="lead fade-up fade-up--d2" style="margin-top: var(--sp-6); max-width: 52ch;">
-        A fictional universe held together by music. The characters exist between tracks —
-        their histories written in frequencies, their futures deferred into the next song.
-      </p>
+  <div class="content">
+    <div class="page-header">
+      <p class="page-header__label">The Universe</p>
+      <h1 class="page-header__title">Story</h1>
+      <p class="page-header__sub">A fictional universe held together by music. The characters exist between tracks — their histories written in frequencies, their futures deferred into the next song.</p>
     </div>
 
-    <!-- Universe intro -->
-    <div class="universe-intro">
-      <div class="universe-intro__text fade-up">
-        <p>
-          Soundverse began as a question: what if a music project had a mythology instead of
-          a biography? What if the songs weren't windows into a life but coordinates in a space
-          that doesn't obey the same rules as the one you're standing in right now?
-        </p>
-        <p>
-          The universe is built outward from Arq — a character defined less by what they are
-          and more by the resonance they leave in every place they pass through. The music is
-          the universe's primary document. Everything else is annotation.
-        </p>
-        <p>
-          Lore is added as the music is made. If a song ends and you don't know quite where you
-          are, that's intentional. Ambiguity is load-bearing here.
-        </p>
+    <div class="section-wrap">
+      <div class="section-header"><h2>Overview</h2></div>
+      <div class="universe-text">
+        <p>Soundverse began as a question: what if a music project had a mythology instead of a biography? What if the songs weren't windows into a life but coordinates in a space that doesn't obey the same rules as the one you're standing in right now?</p>
+        <p>The universe is built outward from Arq — a character defined less by what they are and more by the resonance they leave in every place they pass through. The music is the universe's primary document. Everything else is annotation.</p>
+        <p>Lore is added as the music is made. If a song ends and you don't know quite where you are, that's intentional. Ambiguity is load-bearing here.</p>
       </div>
-      <div class="fade-up fade-up--d1" style="display:flex; flex-direction:column; gap: var(--sp-6);">
-        <div class="universe-stat">
-          <span class="universe-stat__num">4</span>
-          <span class="universe-stat__label">Characters</span>
+      <div class="universe-stats">
+        <div>
+          <div class="universe-stat__num">3</div>
+          <div class="universe-stat__label">Characters</div>
         </div>
-        <div class="universe-stat">
-          <span class="universe-stat__num">1+</span>
-          <span class="universe-stat__label">Arcs in progress</span>
+        <div>
+          <div class="universe-stat__num">1+</div>
+          <div class="universe-stat__label">Arcs in progress</div>
         </div>
-        <div class="universe-stat">
-          <span class="universe-stat__num">∞</span>
-          <span class="universe-stat__label">Unanswered questions</span>
+        <div>
+          <div class="universe-stat__num">∞</div>
+          <div class="universe-stat__label">Unanswered questions</div>
         </div>
       </div>
     </div>
 
-    <hr class="divider" style="max-width:1100px; margin: 0 auto var(--sp-12);" />
-
-    <!-- Characters -->
-    <div class="characters-section">
-      <p class="eyebrow fade-up">Characters</p>
-      <h2 class="fade-up fade-up--d1" style="margin-bottom: var(--sp-8);">The Principals</h2>
-      <div class="grid grid--4">
-        <a class="char-card fade-up" href="/story/arq/">
-          <div class="char-card__avatar">A</div>
-          <div>
-            <div class="char-card__name">Arq</div>
-            <div class="char-card__role">The Wanderer</div>
-          </div>
-          <p class="char-card__desc">
-            A frequency in exile. The signal everything else orbits. Blue-green eyes as the only
-            fixed point in a body that refuses to stay still.
-          </p>
+    <div class="section-wrap">
+      <p class="section-label">Characters</p>
+      <div class="section-header">
+        <h2>The Principals</h2>
+      </div>
+      <div class="char-grid">
+        <a class="char-card" href="/story/arq/">
+          <div class="char-card__letter">A</div>
+          <div class="char-card__name">Arq</div>
+          <div class="char-card__role">The Wanderer</div>
+          <p class="char-card__desc">A frequency in exile. The signal everything else orbits. Blue-green eyes as the only fixed point.</p>
         </a>
-        <a class="char-card fade-up fade-up--d1" href="/story/cuber/">
-          <div class="char-card__avatar">C</div>
-          <div>
-            <div class="char-card__name">Cuber</div>
-            <div class="char-card__role">The Architect</div>
-          </div>
-          <p class="char-card__desc">
-            Builds the structures Arq must eventually leave behind. Exists in the geometry
-            of persistence — every straight line a small act of defiance against entropy.
-          </p>
+        <a class="char-card" href="/story/cuber/">
+          <div class="char-card__letter">C</div>
+          <div class="char-card__name">Cuber</div>
+          <div class="char-card__role">The Architect</div>
+          <p class="char-card__desc">Builds the structures Arq must eventually leave behind. Exists in the geometry of persistence.</p>
         </a>
-        <a class="char-card fade-up fade-up--d2" href="/story/">
-          <div class="char-card__avatar">B</div>
-          <div>
-            <div class="char-card__name">Bob</div>
-            <div class="char-card__role">The Anchor</div>
-          </div>
+        <a class="char-card" href="/story/">
+          <div class="char-card__letter">B</div>
+          <div class="char-card__name">Bob</div>
+          <div class="char-card__role">The Anchor</div>
           <p class="char-card__desc">Placeholder — lore in development. The name arrived before the character did.</p>
         </a>
       </div>
     </div>
 
-    <hr class="divider" style="max-width:1100px; margin: 0 auto var(--sp-12);" />
-
-    <!-- Lore sections -->
-    <div class="lore-sections">
-      <p class="eyebrow fade-up">Lore</p>
-      <h2 class="fade-up fade-up--d1" style="margin-bottom: var(--sp-8);">The World</h2>
-
-      <div class="lore-item fade-up">
-        <span class="lore-item__label">The Frequency</span>
-        <div class="lore-item__content">
-          <h3>What Soundverse Is</h3>
-          <p>
-            Not a place. Not a timeline. A frequency — a band of possibility that certain
-            consciousnesses can tune into. Arq was either born there or drifted in. The
-            distinction matters less than you'd think.
-          </p>
+    <div class="section-wrap">
+      <p class="section-label">Lore</p>
+      <div class="section-header"><h2>The World</h2></div>
+      <div class="lore-list">
+        <div class="lore-row">
+          <span class="lore-row__label">The Frequency</span>
+          <div>
+            <div class="lore-row__title">What Soundverse Is</div>
+            <p class="lore-row__body">Not a place. Not a timeline. A frequency — a band of possibility that certain consciousnesses can tune into. Arq was either born there or drifted in. The distinction matters less than you'd think.</p>
+          </div>
         </div>
-      </div>
-
-      <div class="lore-item fade-up">
-        <span class="lore-item__label">The Arcs</span>
-        <div class="lore-item__content">
-          <h3>Origin Arc</h3>
-          <p>
-            The earliest phase of the universe — when Arq's signal was still finding its shape.
-            The music from this period is rawer, more uncertain. Red Ink is its first document.
-            More pending.
-          </p>
+        <div class="lore-row">
+          <span class="lore-row__label">The Arcs</span>
+          <div>
+            <div class="lore-row__title">Origin Arc</div>
+            <p class="lore-row__body">The earliest phase of the universe — when Arq's signal was still finding its shape. The music from this period is rawer, more uncertain. Red Ink is its first document. More pending.</p>
+          </div>
         </div>
-      </div>
-
-      <div class="lore-item fade-up">
-        <span class="lore-item__label">The Rules</span>
-        <div class="lore-item__content">
-          <h3>What Holds It Together</h3>
-          <p>
-            The universe has rules but doesn't explain them. You're expected to infer.
-            The music is always primary — if a song contradicts a lore page, the song is right.
-            Placeholder lore will be replaced as songs are written.
-          </p>
+        <div class="lore-row">
+          <span class="lore-row__label">The Rules</span>
+          <div>
+            <div class="lore-row__title">What Holds It Together</div>
+            <p class="lore-row__body">The universe has rules but doesn't explain them. You're expected to infer. The music is always primary — if a song contradicts a lore page, the song is right. Placeholder lore will be replaced as songs are written.</p>
+          </div>
         </div>
       </div>
     </div>
-  </main>
 
-  <footer class="footer">
-    <span class="footer__copy">© 2024 Soundverse — molive6316 / MXT Apex</span>
-    <nav class="footer__links">
-      <a href="/music/">Music</a>
-      <a href="/story/">Story</a>
-      <a href="/about/">About</a>
-    </nav>
-  </footer>
+    <footer class="footer">
+      <span class="footer__copy">© 2025 Soundverse — molive6316 / MXT Apex</span>
+      <nav class="footer__links">
+        <a href="/music/">Music</a>
+        <a href="/story/">Story</a>
+        <a href="/about/">About</a>
+      </nav>
+    </footer>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    let W, H, particles = [];
+    function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+    class Particle {
+      constructor() { this.reset(true); }
+      reset(init) { this.x=Math.random()*W; this.y=init?Math.random()*H:H+5; this.size=Math.random()*1.3+0.2; this.vy=-(Math.random()*0.3+0.07); this.vx=(Math.random()-0.5)*0.12; this.alpha=Math.random()*0.5+0.08; this.accent=Math.random()>0.55; }
+      update() { this.x+=this.vx; this.y+=this.vy; if(this.y<-5) this.reset(false); }
+      draw() { ctx.beginPath(); ctx.arc(this.x,this.y,this.size,0,Math.PI*2); ctx.fillStyle=this.accent?`rgba(91,158,160,${this.alpha})`:`rgba(200,194,184,${this.alpha})`; ctx.fill(); }
+    }
+    function drawFrame() { ctx.clearRect(0,0,W,H); particles.forEach(p=>{p.update();p.draw();}); requestAnimationFrame(drawFrame); }
+    resize(); particles=Array.from({length:130},()=>new Particle()); drawFrame();
+    window.addEventListener('resize', resize);
+  </script>
 </body>
 </html>
