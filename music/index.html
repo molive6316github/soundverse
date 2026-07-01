@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Music — Soundverse</title>
+  <link rel="stylesheet" href="../assets/css/base.css" />
+  <style>
+    .music-hero {
+      padding: var(--sp-32) var(--sp-8) var(--sp-12);
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .filter-bar {
+      display: flex;
+      gap: var(--sp-2);
+      flex-wrap: wrap;
+      margin-bottom: var(--sp-12);
+    }
+    .filter-btn {
+      font-family: var(--ff-body);
+      font-size: var(--fs-xs);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: var(--sp-2) var(--sp-4);
+      background: transparent;
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius-sm);
+      color: var(--clr-muted);
+      cursor: pointer;
+      transition: border-color var(--transition), color var(--transition);
+    }
+    .filter-btn:hover,
+    .filter-btn.active {
+      border-color: var(--clr-accent);
+      color: var(--clr-accent);
+    }
+    .song-grid {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 var(--sp-8) var(--sp-32);
+    }
+    .song-card {
+      display: block;
+      text-decoration: none;
+    }
+    .song-card__thumb {
+      aspect-ratio: 4/3;
+      background: var(--clr-surface2);
+      border-radius: var(--radius) var(--radius) 0 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--ff-display);
+      font-size: var(--fs-3xl);
+      color: var(--clr-accent);
+      font-weight: 300;
+      letter-spacing: -0.02em;
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a class="nav__logo" href="/soundverse/">Sound<span>verse</span></a>
+    <ul class="nav__links">
+      <li><a href="/soundverse/music/" aria-current="page">Music</a></li>
+      <li><a href="/soundverse/story/">Story</a></li>
+      <li><a href="/soundverse/about/">About</a></li>
+    </ul>
+  </nav>
+
+  <main class="page">
+    <div class="music-hero">
+      <p class="eyebrow fade-up">Catalog</p>
+      <h1 class="fade-up fade-up--d1">Music</h1>
+      <p class="lead fade-up fade-up--d2" style="margin-top: var(--sp-4);">
+        Every track is a coordinate in the universe. Filtered by era, album, or feeling —
+        though right now they're all just starting points.
+      </p>
+
+      <div class="filter-bar" style="margin-top: var(--sp-8);">
+        <button class="filter-btn active">All</button>
+        <button class="filter-btn">Origin Arc</button>
+        <button class="filter-btn">Ambient</button>
+        <button class="filter-btn">Singles</button>
+      </div>
+    </div>
+
+    <div class="song-grid">
+      <div class="grid grid--3">
+        <a class="card song-card fade-up" href="/soundverse/music/red-ink/">
+          <div class="song-card__thumb">RI</div>
+          <div class="card__body">
+            <span class="card__tag">Anchor</span>
+            <div class="card__title">Red Ink</div>
+            <div class="card__meta">2024 · Origin Arc</div>
+            <p class="muted" style="font-size: var(--fs-sm); margin-top: var(--sp-3); line-height:1.6;">
+              The first signal. Where Arq's voice finds its shape against silence.
+            </p>
+          </div>
+        </a>
+
+        <div class="card song-card fade-up fade-up--d1">
+          <div class="song-card__thumb" style="color: var(--clr-muted); font-size: var(--fs-lg); font-family: var(--ff-body);">TBA</div>
+          <div class="card__body">
+            <span class="card__tag">—</span>
+            <div class="card__title">Untitled II</div>
+            <div class="card__meta">— · Pending</div>
+            <p class="muted" style="font-size: var(--fs-sm); margin-top: var(--sp-3); line-height:1.6;">
+              Placeholder — details forthcoming.
+            </p>
+          </div>
+        </div>
+
+        <div class="card song-card fade-up fade-up--d2">
+          <div class="song-card__thumb" style="color: var(--clr-muted); font-size: var(--fs-lg); font-family: var(--ff-body);">TBA</div>
+          <div class="card__body">
+            <span class="card__tag">—</span>
+            <div class="card__title">Untitled III</div>
+            <div class="card__meta">— · Pending</div>
+            <p class="muted" style="font-size: var(--fs-sm); margin-top: var(--sp-3); line-height:1.6;">
+              Placeholder — details forthcoming.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <span class="footer__copy">© 2024 Soundverse — molive6316 / MXT Apex</span>
+    <nav class="footer__links">
+      <a href="/soundverse/music/">Music</a>
+      <a href="/soundverse/story/">Story</a>
+      <a href="/soundverse/about/">About</a>
+    </nav>
+  </footer>
+
+  <script>
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>

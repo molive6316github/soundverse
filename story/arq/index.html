@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arq — Story — Soundverse</title>
+  <link rel="stylesheet" href="../../assets/css/base.css" />
+  <style>
+    :root {
+      /* Arq-specific: pull back all color, eyes as only accent — already set in base */
+    }
+
+    .char-hero {
+      padding: var(--sp-32) var(--sp-8) var(--sp-12);
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: var(--sp-16);
+      align-items: end;
+    }
+    @media (max-width: 820px) { .char-hero { grid-template-columns: 1fr; } }
+
+    .char-hero::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse 50% 60% at 70% 30%, rgba(91,158,160,0.05) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .char-name {
+      font-size: clamp(5rem, 14vw, 10rem);
+      font-weight: 300;
+      font-style: italic;
+      line-height: 0.9;
+      letter-spacing: -0.03em;
+      color: var(--clr-white);
+    }
+
+    .char-portrait {
+      aspect-ratio: 3/4;
+      background: var(--clr-surface);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .char-portrait__placeholder {
+      font-family: var(--ff-display);
+      font-size: 8rem;
+      font-weight: 300;
+      color: var(--clr-border);
+      user-select: none;
+    }
+    /* The eyes — only color detail */
+    .char-portrait__eyes {
+      position: absolute;
+      bottom: var(--sp-8);
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: var(--sp-3);
+    }
+    .eye {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--clr-accent);
+      box-shadow: 0 0 12px var(--clr-accent), 0 0 24px rgba(91,158,160,0.4);
+    }
+
+    .char-body {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 var(--sp-8) var(--sp-32);
+    }
+
+    .char-meta-strip {
+      display: flex;
+      gap: var(--sp-8);
+      flex-wrap: wrap;
+      padding: var(--sp-8) 0;
+      border-top: 1px solid var(--clr-border);
+      border-bottom: 1px solid var(--clr-border);
+      margin-bottom: var(--sp-12);
+    }
+    .char-meta-item { display: flex; flex-direction: column; gap: 2px; }
+    .char-meta-item__label {
+      font-size: var(--fs-xs);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--clr-muted);
+    }
+    .char-meta-item__value {
+      font-family: var(--ff-display);
+      font-size: var(--fs-lg);
+      color: var(--clr-white);
+    }
+    .char-meta-item__value--accent { color: var(--clr-accent); }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-12);
+      margin-bottom: var(--sp-12);
+    }
+    @media (max-width: 720px) { .two-col { grid-template-columns: 1fr; } }
+
+    .section-heading {
+      font-size: var(--fs-xs);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--clr-accent);
+      margin-bottom: var(--sp-4);
+    }
+
+    .body-text p {
+      font-size: var(--fs-base);
+      color: var(--clr-text);
+      line-height: 1.85;
+      max-width: 58ch;
+    }
+    .body-text p + p { margin-top: var(--sp-4); }
+
+    .design-note {
+      display: flex;
+      gap: var(--sp-4);
+      padding: var(--sp-4) 0;
+      border-bottom: 1px solid var(--clr-border);
+      align-items: baseline;
+    }
+    .design-note__label {
+      font-size: var(--fs-xs);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--clr-muted);
+      min-width: 120px;
+      flex-shrink: 0;
+    }
+    .design-note__value {
+      font-size: var(--fs-sm);
+      color: var(--clr-text);
+    }
+    .design-note__value--accent { color: var(--clr-accent); }
+
+    .linked-tracks {
+      margin-top: var(--sp-12);
+      padding-top: var(--sp-12);
+      border-top: 1px solid var(--clr-border);
+    }
+    .track-ref {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-4);
+      padding: var(--sp-3) 0;
+      border-bottom: 1px solid var(--clr-border);
+      text-decoration: none;
+      transition: padding-left var(--transition);
+    }
+    .track-ref:hover { padding-left: var(--sp-2); }
+    .track-ref__title {
+      font-family: var(--ff-display);
+      font-size: var(--fs-lg);
+      color: var(--clr-white);
+    }
+    .track-ref__meta { font-size: var(--fs-xs); color: var(--clr-muted); margin-left: auto; }
+    .track-ref:hover .track-ref__title { color: var(--clr-accent); }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a class="nav__logo" href="/soundverse/">Sound<span>verse</span></a>
+    <ul class="nav__links">
+      <li><a href="/soundverse/music/">Music</a></li>
+      <li><a href="/soundverse/story/" aria-current="page">Story</a></li>
+      <li><a href="/soundverse/about/">About</a></li>
+    </ul>
+  </nav>
+
+  <main class="page">
+    <div class="char-hero">
+      <div>
+        <p class="eyebrow fade-up">Character</p>
+        <h1 class="char-name fade-up fade-up--d1">Arq</h1>
+        <p class="lead fade-up fade-up--d2" style="margin-top: var(--sp-6);">
+          A wanderer. A frequency. The signal everything else in the universe orbits without
+          quite knowing why.
+        </p>
+      </div>
+      <div class="char-portrait fade-up fade-up--d3">
+        <div class="char-portrait__placeholder">A</div>
+        <div class="char-portrait__eyes">
+          <div class="eye"></div>
+          <div class="eye"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="char-body">
+      <!-- Meta -->
+      <div class="char-meta-strip fade-up">
+        <div class="char-meta-item">
+          <span class="char-meta-item__label">Role</span>
+          <span class="char-meta-item__value">The Wanderer</span>
+        </div>
+        <div class="char-meta-item">
+          <span class="char-meta-item__label">Arc</span>
+          <span class="char-meta-item__value">Origin</span>
+        </div>
+        <div class="char-meta-item">
+          <span class="char-meta-item__label">Eye Color</span>
+          <span class="char-meta-item__value char-meta-item__value--accent">Blue-green</span>
+        </div>
+        <div class="char-meta-item">
+          <span class="char-meta-item__label">Status</span>
+          <span class="char-meta-item__value">In motion</span>
+        </div>
+      </div>
+
+      <!-- Bio + Design notes -->
+      <div class="two-col">
+        <div class="body-text fade-up">
+          <p class="section-heading">Biography</p>
+          <p>
+            Arq is not defined by origin. The question of where they came from is less useful
+            than the question of what they leave behind — and what they leave behind is always
+            a frequency that other things start to orbit.
+          </p>
+          <p>
+            They exist in motion. Not restlessness — precision. Each departure is a calculation.
+            Each arrival is already the beginning of the next exit. This is not tragedy.
+            Arq would correct you on that.
+          </p>
+          <p>
+            The blue-green eyes are the only fixed point. Everything else about the body —
+            its weight, its outline, its certainty — fluctuates. The eyes stay.
+          </p>
+        </div>
+
+        <div class="fade-up fade-up--d1">
+          <p class="section-heading">Design Notes</p>
+          <div class="design-note">
+            <span class="design-note__label">Palette</span>
+            <span class="design-note__value">Muted neutrals throughout — no saturation except the eyes</span>
+          </div>
+          <div class="design-note">
+            <span class="design-note__label">Eyes</span>
+            <span class="design-note__value design-note__value--accent">#5b9ea0 — the only color that belongs to them</span>
+          </div>
+          <div class="design-note">
+            <span class="design-note__label">Silhouette</span>
+            <span class="design-note__value">Ambiguous — readable as any gender, any era</span>
+          </div>
+          <div class="design-note">
+            <span class="design-note__label">Expression</span>
+            <span class="design-note__value">Neutral to the point of intensity. Not cold. Waiting.</span>
+          </div>
+          <div class="design-note">
+            <span class="design-note__label">Reference mood</span>
+            <span class="design-note__value">Late-night highway. Long exposure photography.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lore block -->
+      <div class="lore-block fade-up">
+        <p>
+          Cuber once asked Arq why they always leave before the thing is finished.
+          Arq said: "The frequency doesn't stop because I'm gone. It just stops being yours to hear."
+          Cuber hasn't asked again.
+        </p>
+      </div>
+
+      <!-- Role in the music -->
+      <div class="body-text fade-up" style="margin-bottom: var(--sp-12);">
+        <p class="section-heading">Role in the Music</p>
+        <p>
+          Arq is the primary voice of Soundverse — the perspective most of the music is narrated
+          from or directed at. When a track references "I," it's usually Arq. When it references
+          "you," that's almost never the listener.
+        </p>
+        <p>
+          The music doesn't explain Arq; it demonstrates them. Each song is a behavior, not a
+          description. You learn the character the way you learn a person — by accumulation,
+          by noticing what they keep returning to.
+        </p>
+      </div>
+
+      <!-- Linked tracks -->
+      <div class="linked-tracks fade-up">
+        <p class="eyebrow">Tracks featuring Arq</p>
+        <a class="track-ref" href="/soundverse/music/red-ink/">
+          <span class="card__tag">Anchor</span>
+          <span class="track-ref__title">Red Ink</span>
+          <span class="track-ref__meta">2024 · Origin Arc</span>
+        </a>
+        <div class="track-ref" style="opacity:0.4; cursor: default; pointer-events: none;">
+          <span class="card__tag" style="border-color: var(--clr-border); color: var(--clr-muted);">—</span>
+          <span class="track-ref__title" style="color: var(--clr-muted);">More tracks coming</span>
+          <span class="track-ref__meta">Pending</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <span class="footer__copy">© 2024 Soundverse — molive6316 / MXT Apex</span>
+    <nav class="footer__links">
+      <a href="/soundverse/music/">Music</a>
+      <a href="/soundverse/story/">Story</a>
+      <a href="/soundverse/about/">About</a>
+    </nav>
+  </footer>
+</body>
+</html>

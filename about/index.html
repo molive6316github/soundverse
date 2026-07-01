@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — Soundverse</title>
+  <link rel="stylesheet" href="../assets/css/base.css" />
+  <style>
+    .about-hero {
+      padding: var(--sp-32) var(--sp-8) var(--sp-12);
+      max-width: 820px;
+      margin: 0 auto;
+    }
+    .about-hero::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse 50% 50% at 20% 60%, rgba(91,158,160,0.05) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .about-body {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 0 var(--sp-8) var(--sp-32);
+    }
+
+    .about-section {
+      margin-bottom: var(--sp-16);
+    }
+    .about-section h2 {
+      font-size: var(--fs-2xl);
+      font-weight: 300;
+      font-style: italic;
+      margin-bottom: var(--sp-8);
+      color: var(--clr-white);
+    }
+    .about-section p {
+      font-size: var(--fs-md);
+      color: var(--clr-text);
+      line-height: 1.9;
+      max-width: 60ch;
+    }
+    .about-section p + p { margin-top: var(--sp-4); }
+
+    .identity-block {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-6);
+      padding: var(--sp-8);
+      background: var(--clr-surface);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--sp-12);
+    }
+    .identity-avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: var(--clr-surface2);
+      border: 1px solid var(--clr-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--ff-display);
+      font-size: var(--fs-2xl);
+      color: var(--clr-accent);
+      flex-shrink: 0;
+      font-weight: 300;
+    }
+    .identity-info {}
+    .identity-handle {
+      font-family: var(--ff-display);
+      font-size: var(--fs-xl);
+      color: var(--clr-white);
+      margin-bottom: var(--sp-1);
+    }
+    .identity-sub {
+      font-size: var(--fs-xs);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--clr-accent);
+    }
+
+    .fact-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .fact-row {
+      display: flex;
+      gap: var(--sp-6);
+      padding: var(--sp-4) 0;
+      border-bottom: 1px solid var(--clr-border);
+      align-items: baseline;
+    }
+    .fact-row__key {
+      font-size: var(--fs-xs);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--clr-muted);
+      min-width: 120px;
+      flex-shrink: 0;
+    }
+    .fact-row__val {
+      font-size: var(--fs-sm);
+      color: var(--clr-text);
+    }
+    .fact-row__val a {
+      color: var(--clr-accent);
+      transition: opacity var(--transition);
+    }
+    .fact-row__val a:hover { opacity: 0.7; }
+
+    .principles {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-6);
+      margin-top: var(--sp-8);
+    }
+    @media (max-width: 640px) { .principles { grid-template-columns: 1fr; } }
+    .principle {
+      padding: var(--sp-6);
+      background: var(--clr-surface);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius);
+    }
+    .principle__num {
+      font-size: var(--fs-xs);
+      letter-spacing: 0.15em;
+      color: var(--clr-accent);
+      margin-bottom: var(--sp-2);
+    }
+    .principle__text {
+      font-size: var(--fs-sm);
+      color: var(--clr-text);
+      line-height: 1.7;
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a class="nav__logo" href="/soundverse/">Sound<span>verse</span></a>
+    <ul class="nav__links">
+      <li><a href="/soundverse/music/">Music</a></li>
+      <li><a href="/soundverse/story/">Story</a></li>
+      <li><a href="/soundverse/about/" aria-current="page">About</a></li>
+    </ul>
+  </nav>
+
+  <main class="page">
+    <div class="about-hero">
+      <p class="eyebrow fade-up">About</p>
+      <h1 class="fade-up fade-up--d1" style="font-size: clamp(3rem, 9vw, 6rem); font-weight:300; font-style:italic; line-height:0.95;">
+        The Person<br>Behind It
+      </h1>
+      <p class="lead fade-up fade-up--d2" style="margin-top: var(--sp-6);">
+        Soundverse is one person's project — made alone, released to anyone who finds it.
+        Here's the context.
+      </p>
+    </div>
+
+    <div class="about-body">
+      <!-- Identity -->
+      <div class="identity-block fade-up">
+        <div class="identity-avatar">M</div>
+        <div class="identity-info">
+          <div class="identity-handle">molive6316</div>
+          <div class="identity-sub">MXT Apex · Soundverse</div>
+        </div>
+      </div>
+
+      <!-- About the person -->
+      <div class="about-section fade-up">
+        <h2>Who</h2>
+        <p>
+          molive6316 — the person behind MXT Apex and Soundverse. More producer than performer,
+          more architect than narrator, except when it's the other way around.
+        </p>
+        <p>
+          The music exists because there was no other good way to make the universe legible.
+          The characters exist because the music needed somewhere to live.
+        </p>
+      </div>
+
+      <hr class="divider" />
+
+      <!-- About Soundverse -->
+      <div class="about-section fade-up">
+        <h2>What Soundverse Is</h2>
+        <p>
+          A music project with a mythology attached. Not a concept album in the traditional
+          sense — more like a universe that happens to express itself primarily through sound.
+        </p>
+        <p>
+          The site is the universe's interface. The music is its primary text. The lore pages
+          are footnotes — useful for context, never more important than the thing they annotate.
+        </p>
+        <p>
+          Nothing here is finished. That's a feature.
+        </p>
+      </div>
+
+      <!-- Facts -->
+      <div class="fade-up">
+        <p class="eyebrow" style="margin-bottom: var(--sp-4);">Quick Reference</p>
+        <div class="fact-list">
+          <div class="fact-row">
+            <span class="fact-row__key">Handle</span>
+            <span class="fact-row__val">molive6316</span>
+          </div>
+          <div class="fact-row">
+            <span class="fact-row__key">Project</span>
+            <span class="fact-row__val">MXT Apex / Soundverse</span>
+          </div>
+          <div class="fact-row">
+            <span class="fact-row__key">Medium</span>
+            <span class="fact-row__val">Music, world-building, static HTML</span>
+          </div>
+          <div class="fact-row">
+            <span class="fact-row__key">Universe age</span>
+            <span class="fact-row__val">Early. Lore is sparse by design.</span>
+          </div>
+          <div class="fact-row">
+            <span class="fact-row__key">Tech stack</span>
+            <span class="fact-row__val">Pure HTML / CSS / JS — no frameworks</span>
+          </div>
+          <div class="fact-row">
+            <span class="fact-row__key">Contact</span>
+            <span class="fact-row__val">Placeholder — link or email goes here</span>
+          </div>
+        </div>
+      </div>
+
+      <hr class="divider" />
+
+      <!-- Design principles -->
+      <div class="about-section fade-up">
+        <h2>How This Was Made</h2>
+        <p>
+          The aesthetic comes from a specific set of constraints: no frameworks, muted everything,
+          a single accent color, and the belief that cinematic atmosphere is a function of restraint —
+          not complexity.
+        </p>
+        <p>
+          Cormorant Garamond for the things that should feel old and certain. DM Mono for everything
+          that needs to feel slightly technical, slightly cold. Grain overlay because nothing
+          digital should feel too clean.
+        </p>
+        <div class="principles" style="margin-top: var(--sp-8);">
+          <div class="principle">
+            <div class="principle__num">01</div>
+            <div class="principle__text">The music is always more important than the site</div>
+          </div>
+          <div class="principle">
+            <div class="principle__num">02</div>
+            <div class="principle__text">Ambiguity is load-bearing — don't explain what the feeling already says</div>
+          </div>
+          <div class="principle">
+            <div class="principle__num">03</div>
+            <div class="principle__text">Placeholder content is honest. "TBA" is better than fiction.</div>
+          </div>
+          <div class="principle">
+            <div class="principle__num">04</div>
+            <div class="principle__text">The accent color (#5b9ea0) belongs to Arq's eyes first</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <span class="footer__copy">© 2024 Soundverse — molive6316 / MXT Apex</span>
+    <nav class="footer__links">
+      <a href="/soundverse/music/">Music</a>
+      <a href="/soundverse/story/">Story</a>
+      <a href="/soundverse/about/">About</a>
+    </nav>
+  </footer>
+</body>
+</html>

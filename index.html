@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Soundverse</title>
+  <link rel="stylesheet" href="assets/css/base.css" />
+  <style>
+    /* ── Hero ── */
+    .hero {
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: var(--sp-32) var(--sp-8) var(--sp-16);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 60% 40%, rgba(91,158,160,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero__label {
+      font-size: var(--fs-xs);
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--clr-accent);
+      margin-bottom: var(--sp-4);
+    }
+    .hero__title {
+      font-family: var(--ff-display);
+      font-size: var(--fs-hero);
+      font-weight: 300;
+      color: var(--clr-white);
+      line-height: 0.9;
+      letter-spacing: -0.02em;
+      margin-bottom: var(--sp-8);
+    }
+    .hero__title em {
+      font-style: italic;
+      color: var(--clr-accent);
+    }
+    .hero__tagline {
+      font-size: var(--fs-md);
+      color: var(--clr-muted);
+      max-width: 44ch;
+      line-height: 1.8;
+      margin-bottom: var(--sp-10);
+    }
+    .hero__ctas {
+      display: flex;
+      gap: var(--sp-4);
+      flex-wrap: wrap;
+    }
+    .hero__scroll {
+      position: absolute;
+      bottom: var(--sp-8);
+      left: var(--sp-8);
+      font-size: var(--fs-xs);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--clr-muted);
+      display: flex;
+      align-items: center;
+      gap: var(--sp-3);
+    }
+    .hero__scroll::before {
+      content: '';
+      display: block;
+      width: 32px;
+      height: 1px;
+      background: var(--clr-border);
+    }
+
+    /* ── Preview sections ── */
+    .preview-section { padding: var(--sp-24) var(--sp-8); max-width: 1100px; margin: 0 auto; }
+    .preview-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: var(--sp-8);
+      border-bottom: 1px solid var(--clr-border);
+      padding-bottom: var(--sp-4);
+    }
+    .preview-header h2 {
+      font-size: var(--fs-xl);
+      font-weight: 400;
+      letter-spacing: 0.04em;
+    }
+    .preview-header a {
+      font-size: var(--fs-xs);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--clr-accent);
+      transition: opacity var(--transition);
+    }
+    .preview-header a:hover { opacity: 0.7; }
+
+    /* small music card */
+    .music-mini {
+      padding: var(--sp-4) var(--sp-6);
+      background: var(--clr-surface);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      gap: var(--sp-4);
+      cursor: pointer;
+      transition: border-color var(--transition), transform var(--transition);
+      text-decoration: none;
+    }
+    .music-mini:hover { border-color: var(--clr-accent-dim); transform: translateX(3px); }
+    .music-mini__num {
+      font-size: var(--fs-xs);
+      color: var(--clr-muted);
+      width: 20px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+    .music-mini__info { flex: 1; min-width: 0; }
+    .music-mini__title {
+      font-family: var(--ff-display);
+      font-size: var(--fs-lg);
+      color: var(--clr-white);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .music-mini__meta { font-size: var(--fs-xs); color: var(--clr-muted); }
+    .music-mini__tag { margin-left: auto; }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a class="nav__logo" href="/soundverse/">Sound<span>verse</span></a>
+    <ul class="nav__links">
+      <li><a href="/soundverse/music/">Music</a></li>
+      <li><a href="/soundverse/story/">Story</a></li>
+      <li><a href="/soundverse/about/">About</a></li>
+    </ul>
+  </nav>
+
+  <main class="page">
+    <!-- Hero -->
+    <section class="hero">
+      <p class="hero__label fade-up">A sonic universe</p>
+      <h1 class="hero__title fade-up fade-up--d1">Arq</h1>
+      <p class="hero__tagline fade-up fade-up--d2">
+        Music woven into myth. A wanderer's frequency cast across fractured worlds —
+        each track a coordinate, each lyric a memory that was never yours to begin with.
+      </p>
+      <div class="hero__ctas fade-up fade-up--d3">
+        <a class="btn btn--primary" href="/soundverse/music/">Hear It</a>
+        <a class="btn btn--ghost" href="/soundverse/story/">The Universe →</a>
+      </div>
+      <div class="hero__scroll">Scroll</div>
+    </section>
+
+    <!-- Music preview -->
+    <div class="preview-section">
+      <div class="preview-header">
+        <h2>Recent Tracks</h2>
+        <a href="/soundverse/music/">All Music →</a>
+      </div>
+      <div class="grid grid--2" style="gap: var(--sp-3);">
+        <a class="music-mini fade-up" href="/soundverse/music/red-ink/">
+          <span class="music-mini__num">01</span>
+          <div class="music-mini__info">
+            <div class="music-mini__title">Red Ink</div>
+            <div class="music-mini__meta">2024 · Origin Arc</div>
+          </div>
+          <span class="card__tag music-mini__tag">Anchor</span>
+        </a>
+        <a class="music-mini fade-up fade-up--d1" href="/soundverse/music/">
+          <span class="music-mini__num">02</span>
+          <div class="music-mini__info">
+            <div class="music-mini__title">Placeholder Track</div>
+            <div class="music-mini__meta">2024 · —</div>
+          </div>
+          <span class="card__tag music-mini__tag">TBA</span>
+        </a>
+        <a class="music-mini fade-up fade-up--d2" href="/soundverse/music/">
+          <span class="music-mini__num">03</span>
+          <div class="music-mini__info">
+            <div class="music-mini__title">Placeholder Track</div>
+            <div class="music-mini__meta">2024 · —</div>
+          </div>
+          <span class="card__tag music-mini__tag">TBA</span>
+        </a>
+        <a class="music-mini fade-up fade-up--d3" href="/soundverse/music/">
+          <span class="music-mini__num">04</span>
+          <div class="music-mini__info">
+            <div class="music-mini__title">Placeholder Track</div>
+            <div class="music-mini__meta">2024 · —</div>
+          </div>
+          <span class="card__tag music-mini__tag">TBA</span>
+        </a>
+      </div>
+    </div>
+
+    <hr class="divider" style="max-width:1100px; margin: 0 auto var(--sp-8);" />
+
+    <!-- Character preview -->
+    <div class="preview-section">
+      <div class="preview-header">
+        <h2>The Characters</h2>
+        <a href="/soundverse/story/">Full Universe →</a>
+      </div>
+      <div class="grid grid--4">
+        <a class="char-card fade-up" href="/soundverse/story/arq/">
+          <div class="char-card__avatar">A</div>
+          <div>
+            <div class="char-card__name">Arq</div>
+            <div class="char-card__role">The Wanderer</div>
+          </div>
+          <p class="char-card__desc">A frequency in exile. The signal everything else orbits.</p>
+        </a>
+        <a class="char-card fade-up fade-up--d1" href="/soundverse/story/cuber/">
+          <div class="char-card__avatar">C</div>
+          <div>
+            <div class="char-card__name">Cuber</div>
+            <div class="char-card__role">The Architect</div>
+          </div>
+          <p class="char-card__desc">Builds the structures Arq must eventually leave behind.</p>
+        </a>
+        <a class="char-card fade-up fade-up--d2" href="/soundverse/story/">
+          <div class="char-card__avatar">B</div>
+          <div>
+            <div class="char-card__name">Bob</div>
+            <div class="char-card__role">The Anchor</div>
+          </div>
+          <p class="char-card__desc">Placeholder — lore pending.</p>
+        </a>
+        <a class="char-card fade-up fade-up--d3" href="/soundverse/story/">
+          <div class="char-card__avatar">H</div>
+          <div>
+            <div class="char-card__name">Harambe</div>
+            <div class="char-card__role">The Myth</div>
+          </div>
+          <p class="char-card__desc">Placeholder — lore pending.</p>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <span class="footer__copy">© 2024 Soundverse — molive6316 / MXT Apex</span>
+    <nav class="footer__links">
+      <a href="/soundverse/music/">Music</a>
+      <a href="/soundverse/story/">Story</a>
+      <a href="/soundverse/about/">About</a>
+    </nav>
+  </footer>
+</body>
+</html>

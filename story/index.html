@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Story — Soundverse</title>
+  <link rel="stylesheet" href="../assets/css/base.css" />
+  <style>
+    .story-hero {
+      padding: var(--sp-32) var(--sp-8) var(--sp-12);
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .story-hero::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 50% at 30% 50%, rgba(91,158,160,0.06) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .universe-intro {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 var(--sp-8);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-16);
+      align-items: start;
+      margin-bottom: var(--sp-24);
+    }
+    @media (max-width: 720px) { .universe-intro { grid-template-columns: 1fr; } }
+    .universe-intro__text p {
+      font-size: var(--fs-md);
+      color: var(--clr-text);
+      line-height: 1.9;
+    }
+    .universe-intro__text p + p { margin-top: var(--sp-4); }
+    .universe-stat {
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-1);
+      padding: var(--sp-6);
+      border-left: 2px solid var(--clr-accent-dim);
+    }
+    .universe-stat__num {
+      font-family: var(--ff-display);
+      font-size: var(--fs-3xl);
+      color: var(--clr-white);
+      line-height: 1;
+    }
+    .universe-stat__label {
+      font-size: var(--fs-xs);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--clr-muted);
+    }
+
+    .characters-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 var(--sp-8);
+      margin-bottom: var(--sp-24);
+    }
+    .lore-sections {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 var(--sp-8) var(--sp-32);
+    }
+    .lore-item {
+      padding: var(--sp-8) 0;
+      border-bottom: 1px solid var(--clr-border);
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: var(--sp-8);
+    }
+    @media (max-width: 640px) { .lore-item { grid-template-columns: 1fr; } }
+    .lore-item__label {
+      font-size: var(--fs-xs);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--clr-accent);
+      padding-top: 4px;
+    }
+    .lore-item__content h3 {
+      font-size: var(--fs-xl);
+      font-weight: 400;
+      margin-bottom: var(--sp-3);
+    }
+    .lore-item__content p {
+      font-size: var(--fs-base);
+      color: var(--clr-muted);
+      line-height: 1.8;
+      max-width: 60ch;
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a class="nav__logo" href="/soundverse/">Sound<span>verse</span></a>
+    <ul class="nav__links">
+      <li><a href="/soundverse/music/">Music</a></li>
+      <li><a href="/soundverse/story/" aria-current="page">Story</a></li>
+      <li><a href="/soundverse/about/">About</a></li>
+    </ul>
+  </nav>
+
+  <main class="page">
+    <div class="story-hero">
+      <p class="eyebrow fade-up">The Universe</p>
+      <h1 class="fade-up fade-up--d1" style="font-size: clamp(3rem, 8vw, 6rem); font-weight:300; font-style:italic; line-height:0.95;">Soundverse</h1>
+      <p class="lead fade-up fade-up--d2" style="margin-top: var(--sp-6); max-width: 52ch;">
+        A fictional universe held together by music. The characters exist between tracks —
+        their histories written in frequencies, their futures deferred into the next song.
+      </p>
+    </div>
+
+    <!-- Universe intro -->
+    <div class="universe-intro">
+      <div class="universe-intro__text fade-up">
+        <p>
+          Soundverse began as a question: what if a music project had a mythology instead of
+          a biography? What if the songs weren't windows into a life but coordinates in a space
+          that doesn't obey the same rules as the one you're standing in right now?
+        </p>
+        <p>
+          The universe is built outward from Arq — a character defined less by what they are
+          and more by the resonance they leave in every place they pass through. The music is
+          the universe's primary document. Everything else is annotation.
+        </p>
+        <p>
+          Lore is added as the music is made. If a song ends and you don't know quite where you
+          are, that's intentional. Ambiguity is load-bearing here.
+        </p>
+      </div>
+      <div class="fade-up fade-up--d1" style="display:flex; flex-direction:column; gap: var(--sp-6);">
+        <div class="universe-stat">
+          <span class="universe-stat__num">4</span>
+          <span class="universe-stat__label">Characters</span>
+        </div>
+        <div class="universe-stat">
+          <span class="universe-stat__num">1+</span>
+          <span class="universe-stat__label">Arcs in progress</span>
+        </div>
+        <div class="universe-stat">
+          <span class="universe-stat__num">∞</span>
+          <span class="universe-stat__label">Unanswered questions</span>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider" style="max-width:1100px; margin: 0 auto var(--sp-12);" />
+
+    <!-- Characters -->
+    <div class="characters-section">
+      <p class="eyebrow fade-up">Characters</p>
+      <h2 class="fade-up fade-up--d1" style="margin-bottom: var(--sp-8);">The Principals</h2>
+      <div class="grid grid--4">
+        <a class="char-card fade-up" href="/soundverse/story/arq/">
+          <div class="char-card__avatar">A</div>
+          <div>
+            <div class="char-card__name">Arq</div>
+            <div class="char-card__role">The Wanderer</div>
+          </div>
+          <p class="char-card__desc">
+            A frequency in exile. The signal everything else orbits. Blue-green eyes as the only
+            fixed point in a body that refuses to stay still.
+          </p>
+        </a>
+        <a class="char-card fade-up fade-up--d1" href="/soundverse/story/cuber/">
+          <div class="char-card__avatar">C</div>
+          <div>
+            <div class="char-card__name">Cuber</div>
+            <div class="char-card__role">The Architect</div>
+          </div>
+          <p class="char-card__desc">
+            Builds the structures Arq must eventually leave behind. Exists in the geometry
+            of persistence — every straight line a small act of defiance against entropy.
+          </p>
+        </a>
+        <a class="char-card fade-up fade-up--d2" href="/soundverse/story/">
+          <div class="char-card__avatar">B</div>
+          <div>
+            <div class="char-card__name">Bob</div>
+            <div class="char-card__role">The Anchor</div>
+          </div>
+          <p class="char-card__desc">Placeholder — lore in development. The name arrived before the character did.</p>
+        </a>
+        <a class="char-card fade-up fade-up--d3" href="/soundverse/story/">
+          <div class="char-card__avatar">H</div>
+          <div>
+            <div class="char-card__name">Harambe</div>
+            <div class="char-card__role">The Myth</div>
+          </div>
+          <p class="char-card__desc">Placeholder — lore in development. Already a myth before the story began.</p>
+        </a>
+      </div>
+    </div>
+
+    <hr class="divider" style="max-width:1100px; margin: 0 auto var(--sp-12);" />
+
+    <!-- Lore sections -->
+    <div class="lore-sections">
+      <p class="eyebrow fade-up">Lore</p>
+      <h2 class="fade-up fade-up--d1" style="margin-bottom: var(--sp-8);">The World</h2>
+
+      <div class="lore-item fade-up">
+        <span class="lore-item__label">The Frequency</span>
+        <div class="lore-item__content">
+          <h3>What Soundverse Is</h3>
+          <p>
+            Not a place. Not a timeline. A frequency — a band of possibility that certain
+            consciousnesses can tune into. Arq was either born there or drifted in. The
+            distinction matters less than you'd think.
+          </p>
+        </div>
+      </div>
+
+      <div class="lore-item fade-up">
+        <span class="lore-item__label">The Arcs</span>
+        <div class="lore-item__content">
+          <h3>Origin Arc</h3>
+          <p>
+            The earliest phase of the universe — when Arq's signal was still finding its shape.
+            The music from this period is rawer, more uncertain. Red Ink is its first document.
+            More pending.
+          </p>
+        </div>
+      </div>
+
+      <div class="lore-item fade-up">
+        <span class="lore-item__label">The Rules</span>
+        <div class="lore-item__content">
+          <h3>What Holds It Together</h3>
+          <p>
+            The universe has rules but doesn't explain them. You're expected to infer.
+            The music is always primary — if a song contradicts a lore page, the song is right.
+            Placeholder lore will be replaced as songs are written.
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <span class="footer__copy">© 2024 Soundverse — molive6316 / MXT Apex</span>
+    <nav class="footer__links">
+      <a href="/soundverse/music/">Music</a>
+      <a href="/soundverse/story/">Story</a>
+      <a href="/soundverse/about/">About</a>
+    </nav>
+  </footer>
+</body>
+</html>
