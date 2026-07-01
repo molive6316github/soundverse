@@ -7,41 +7,18 @@
   <link rel="stylesheet" href="assets/css/base.css" />
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
   <style>
-    /* ── HERO: pure black, full screen ── */
-    .hero {
-      position: relative;
-      width: 100%;
-      height: 100svh;
-      background: #000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { background: #000; }
+
+    body {
+      color: var(--clr-text);
+      font-family: var(--ff-body);
+      font-size: var(--fs-base);
+      line-height: 1.7;
+      overflow-x: hidden;
     }
 
-    /* Arq image — swap src when commissioned */
-    .hero__img {
-      position: absolute;
-      inset: 0;
-      background: url('assets/img/arq.jpg') center top / cover no-repeat;
-      opacity: 0.22;
-      /* remove this line once image exists: */
-      display: none;
-    }
-
-    .hero__title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(5rem, 20vw, 18rem);
-      font-weight: 400;
-      color: #fff;
-      letter-spacing: 0.06em;
-      line-height: 1;
-      position: relative;
-      z-index: 1;
-      will-change: transform;
-    }
-
-    /* ── NAV: fixed, invisible until scroll ── */
+    /* ── NAV ── */
     .nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -51,12 +28,12 @@
       align-items: center;
       justify-content: space-between;
       padding: 0 var(--sp-8);
-      transition: background 0.4s, border-color 0.4s;
+      transition: background 0.5s, border-color 0.5s;
       border-bottom: 1px solid transparent;
     }
     .nav.scrolled {
-      background: rgba(13,13,13,0.92);
-      backdrop-filter: blur(12px);
+      background: rgba(0,0,0,0.88);
+      backdrop-filter: blur(14px);
       border-color: var(--clr-border);
     }
     .nav__logo {
@@ -66,43 +43,79 @@
       color: #fff;
       opacity: 0;
       transition: opacity 0.4s;
+      text-decoration: none;
     }
     .nav__logo span { color: var(--clr-accent); }
     .nav.scrolled .nav__logo { opacity: 1; }
-
-    .nav__links {
-      display: flex;
-      gap: var(--sp-8);
-    }
+    .nav__links { display: flex; gap: var(--sp-8); list-style: none; }
     .nav__links a {
       font-size: var(--fs-xs);
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: rgba(255,255,255,0.35);
+      color: rgba(255,255,255,0.3);
+      text-decoration: none;
       transition: color 0.3s;
     }
     .nav.scrolled .nav__links a { color: var(--clr-muted); }
     .nav__links a:hover { color: var(--clr-accent) !important; }
 
-    /* ── CONTENT: below the hero ── */
-    .content {
+    /* ── HERO ── */
+    .hero {
       position: relative;
-      background: var(--clr-bg);
+      width: 100%;
+      height: 100vh;
+      min-height: 100dvh;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
     }
 
-    /* canvas sits at top of content, bleeds upward slightly */
-    #bg-canvas {
+    /* Arq image slot */
+    .hero__img {
       position: absolute;
-      top: -80px; left: 0; right: 0;
+      inset: 0;
+      background: url('assets/img/arq.jpg') center top / cover no-repeat;
+      opacity: 0;
+      transition: opacity 1.2s ease;
+      /* set opacity: 0.2 once image exists */
+    }
+
+    .hero__title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4.5rem, 18vw, 17rem);
+      font-weight: 400;
+      color: #fff;
+      letter-spacing: 0.05em;
+      line-height: 1;
+      position: relative;
+      z-index: 1;
+      will-change: transform, opacity;
+      white-space: nowrap;
+    }
+
+    /* ── CANVAS: full black bg, particles on top ── */
+    #bg-canvas {
+      position: fixed;
+      inset: 0;
       width: 100%;
-      height: 500px;
+      height: 100%;
       pointer-events: none;
       z-index: 0;
+      opacity: 0;
+      transition: opacity 1.2s ease;
+    }
+    #bg-canvas.visible { opacity: 1; }
+
+    /* ── CONTENT ── */
+    .content {
+      position: relative;
+      z-index: 1;
+      background: transparent;
     }
 
     .section-wrap {
-      position: relative;
-      z-index: 1;
       max-width: 1100px;
       margin: 0 auto;
       padding: var(--sp-24) var(--sp-8);
@@ -141,47 +154,32 @@
       color: var(--clr-accent);
       opacity: 0.75;
       transition: opacity 0.2s;
+      text-decoration: none;
     }
     .section-header a:hover { opacity: 1; }
 
-    /* music rows */
+    /* music */
     .music-list { display: flex; flex-direction: column; gap: 1px; background: var(--clr-border); }
-
     .music-row {
       display: flex;
       align-items: center;
       gap: var(--sp-4);
       padding: var(--sp-4) var(--sp-6);
-      background: var(--clr-bg);
+      background: #000;
       text-decoration: none;
       transition: background 0.18s;
     }
     .music-row:hover { background: var(--clr-surface); }
+    .music-row__num { font-size: var(--fs-xs); color: var(--clr-muted); width: 20px; flex-shrink: 0; }
+    .music-row__title { font-size: var(--fs-md); color: var(--clr-white); flex: 1; }
+    .music-row__meta { font-size: var(--fs-xs); color: var(--clr-muted); letter-spacing: 0.08em; }
 
-    .music-row__num {
-      font-size: var(--fs-xs);
-      color: var(--clr-muted);
-      width: 20px;
-      flex-shrink: 0;
-    }
-    .music-row__title {
-      font-size: var(--fs-md);
-      color: var(--clr-white);
-      flex: 1;
-    }
-    .music-row__meta {
-      font-size: var(--fs-xs);
-      color: var(--clr-muted);
-      letter-spacing: 0.08em;
-    }
-
-    /* character grid */
+    /* characters */
     .char-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
       gap: var(--sp-4);
     }
-
     .char-card {
       border: 1px solid var(--clr-border);
       padding: var(--sp-6);
@@ -190,30 +188,39 @@
       flex-direction: column;
       gap: var(--sp-2);
       transition: border-color 0.2s, transform 0.2s;
+      background: rgba(0,0,0,0.6);
     }
     .char-card:hover { border-color: var(--clr-accent-dim); transform: translateY(-2px); }
-
-    .char-card__letter {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 2rem;
-      color: var(--clr-accent);
-      line-height: 1;
-    }
+    .char-card__letter { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--clr-accent); line-height: 1; }
     .char-card__name { font-size: var(--fs-md); color: var(--clr-white); }
-    .char-card__role {
-      font-size: var(--fs-xs);
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--clr-accent);
-    }
+    .char-card__role { font-size: var(--fs-xs); letter-spacing: 0.15em; text-transform: uppercase; color: var(--clr-accent); }
     .char-card__desc { font-size: var(--fs-xs); color: var(--clr-muted); line-height: 1.7; margin-top: var(--sp-2); }
+
+    /* footer */
+    .footer {
+      border-top: 1px solid var(--clr-border);
+      padding: var(--sp-12) var(--sp-8);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: var(--sp-4);
+      background: #000;
+    }
+    .footer__copy { font-size: var(--fs-xs); color: var(--clr-muted); letter-spacing: 0.08em; }
+    .footer__links { display: flex; gap: var(--sp-6); }
+    .footer__links a { font-size: var(--fs-xs); letter-spacing: 0.1em; text-transform: uppercase; color: var(--clr-muted); text-decoration: none; transition: color 0.2s; }
+    .footer__links a:hover { color: var(--clr-accent); }
 
     @media (max-width: 640px) {
       .nav__links { display: none; }
+      .footer { flex-direction: column; text-align: center; }
     }
   </style>
 </head>
 <body>
+
+  <canvas id="bg-canvas"></canvas>
 
   <nav class="nav" id="nav">
     <a class="nav__logo" href="/">Sound<span>verse</span></a>
@@ -224,17 +231,12 @@
     </ul>
   </nav>
 
-  <!-- HERO: black screen, your name, Arq behind it -->
   <section class="hero">
     <div class="hero__img"></div>
     <h1 class="hero__title" id="hero-title">SOUNDVERSE</h1>
   </section>
 
-  <!-- CONTENT -->
   <div class="content">
-    <canvas id="bg-canvas"></canvas>
-
-    <!-- Music -->
     <div class="section-wrap">
       <p class="section-label">Music</p>
       <div class="section-header">
@@ -260,7 +262,6 @@
       </div>
     </div>
 
-    <!-- Characters -->
     <div class="section-wrap">
       <p class="section-label">Story</p>
       <div class="section-header">
@@ -300,27 +301,37 @@
   </div>
 
   <script>
-    // ── NAV appears on scroll ──
+    // ── NAV ──
     const nav = document.getElementById('nav');
-    window.addEventListener('scroll', () => {
-      nav.classList.toggle('scrolled', window.scrollY > window.innerHeight * 0.6);
-    }, { passive: true });
-
-    // ── PARALLAX on hero title ──
     const heroTitle = document.getElementById('hero-title');
+    const bgCanvas = document.getElementById('bg-canvas');
+
     window.addEventListener('scroll', () => {
-      heroTitle.style.transform = `translateY(${window.scrollY * 0.32}px)`;
-      heroTitle.style.opacity = 1 - window.scrollY / (window.innerHeight * 0.7);
+      const s = window.scrollY;
+      const vh = window.innerHeight;
+
+      // nav appears after scrolling 60% of hero
+      nav.classList.toggle('scrolled', s > vh * 0.6);
+
+      // hero title parallax + fade
+      heroTitle.style.transform = `translateY(${s * 0.3}px)`;
+      heroTitle.style.opacity = Math.max(0, 1 - s / (vh * 0.65));
+
+      // canvas fades in as you scroll into content
+      const fadeStart = vh * 0.4;
+      const fadeEnd = vh * 0.9;
+      const progress = Math.min(1, Math.max(0, (s - fadeStart) / (fadeEnd - fadeStart)));
+      bgCanvas.style.opacity = progress;
     }, { passive: true });
 
-    // ── NEBULA + PARTICLES on canvas ──
-    const canvas = document.getElementById('bg-canvas');
+    // ── CANVAS PARTICLES + NEBULA ──
+    const canvas = bgCanvas;
     const ctx = canvas.getContext('2d');
     let W, H, particles = [];
 
     function resize() {
-      W = canvas.width = canvas.offsetWidth;
-      H = canvas.height = canvas.offsetHeight;
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
     }
 
     class Particle {
@@ -328,57 +339,63 @@
       reset(init) {
         this.x = Math.random() * W;
         this.y = init ? Math.random() * H : H + 5;
-        this.size = Math.random() * 1.2 + 0.2;
-        this.vy = -(Math.random() * 0.3 + 0.06);
+        this.size = Math.random() * 1.3 + 0.2;
+        this.vy = -(Math.random() * 0.3 + 0.07);
         this.vx = (Math.random() - 0.5) * 0.12;
-        this.alpha = Math.random() * 0.5 + 0.07;
-        this.accent = Math.random() > 0.6;
+        this.alpha = Math.random() * 0.5 + 0.08;
+        this.accent = Math.random() > 0.55;
       }
-      update() { this.x += this.vx; this.y += this.vy; if (this.y < -5) this.reset(false); }
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        if (this.y < -5) this.reset(false);
+      }
       draw() {
         ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI*2);
-        ctx.fillStyle = this.accent ? `rgba(91,158,160,${this.alpha})` : `rgba(200,194,184,${this.alpha})`;
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = this.accent
+          ? `rgba(91,158,160,${this.alpha})`
+          : `rgba(200,194,184,${this.alpha})`;
         ctx.fill();
       }
     }
 
     const blobs = [
-      { x:0.2, y:0.4, r:320, col:'26,58,92',  spd:0.00014 },
-      { x:0.75, y:0.5, r:280, col:'91,158,160', spd:0.0002 },
-      { x:0.5, y:0.9,  r:260, col:'40,16,60',  spd:0.00016 },
+      { x: 0.2,  y: 0.35, r: 380, col: '26,58,92',   spd: 0.00013 },
+      { x: 0.78, y: 0.55, r: 320, col: '91,158,160',  spd: 0.00019 },
+      { x: 0.5,  y: 0.85, r: 290, col: '45,14,65',    spd: 0.00015 },
+      { x: 0.62, y: 0.18, r: 240, col: '18,45,38',    spd: 0.00021 },
     ];
+
     let t = 0;
 
-    function draw() {
+    function drawFrame() {
       ctx.clearRect(0, 0, W, H);
+
+      // nebula blobs
       blobs.forEach(b => {
-        const bx = (b.x + Math.sin(t*b.spd*900)*0.06)*W;
-        const by = (b.y + Math.cos(t*b.spd*700)*0.05)*H;
+        const bx = (b.x + Math.sin(t * b.spd * 900) * 0.06) * W;
+        const by = (b.y + Math.cos(t * b.spd * 700) * 0.05) * H;
         const g = ctx.createRadialGradient(bx, by, 0, bx, by, b.r);
-        g.addColorStop(0, `rgba(${b.col},0.14)`);
+        g.addColorStop(0, `rgba(${b.col},0.13)`);
         g.addColorStop(1, `rgba(${b.col},0)`);
         ctx.fillStyle = g;
-        ctx.beginPath(); ctx.arc(bx, by, b.r, 0, Math.PI*2); ctx.fill();
+        ctx.beginPath();
+        ctx.arc(bx, by, b.r, 0, Math.PI * 2);
+        ctx.fill();
       });
+
+      // particles
       particles.forEach(p => { p.update(); p.draw(); });
+
       t++;
-      requestAnimationFrame(draw);
+      requestAnimationFrame(drawFrame);
     }
 
-    function init() {
-      resize();
-      particles = Array.from({length: 120}, () => new Particle());
-      draw();
-    }
-
-    // only run canvas when it's near the viewport
-    const observer = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting) { init(); observer.disconnect(); }
-    });
-    observer.observe(canvas);
-
-    window.addEventListener('resize', resize);
+    resize();
+    particles = Array.from({ length: 130 }, () => new Particle());
+    drawFrame();
+    window.addEventListener('resize', () => { resize(); });
   </script>
 
 </body>
